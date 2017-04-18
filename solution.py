@@ -35,13 +35,13 @@ def naked_twins(values):
     all_naked_twins = []
     # Find all instances of naked twins
     for unit in unitlist:
-        all_naked_twins += [(box1, box2) for box1 in unit for box2 in unit if
+        all_naked_twins += [(box1, box2, values[box1]) for box1 in unit for box2 in unit if
                            is_naked_twins(box1, box2)]
 
     # Eliminate the naked twins as possibilities for their peers
     for twins in all_naked_twins:
         common_peers = set(peers[twins[0]]).intersection(set(peers[twins[1]]))
-        value = values[twins[0]]
+        value = twins[2]
         for p in common_peers:
             assign_value(values, p, values[p].replace(value[0], ""))
             assign_value(values, p, values[p].replace(value[1], ""))
@@ -165,7 +165,7 @@ def solve(grid):
     return search(grid_values(grid))
 
 if __name__ == '__main__':
-    diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
+    diag_sudoku_grid = '...7.2.4.........7217....9.6.......3.2..48..........1..5..........3.......6......'
     display(solve(diag_sudoku_grid))
 
     try:
